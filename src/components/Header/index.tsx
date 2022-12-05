@@ -95,41 +95,43 @@ const Header = () => {
                 )}
               </li>
             </ul>
-            <Modal
-              title="Generate a new wallet or recover from seed"
-              visible={isModalVisible}
-              onOk={hideModal}
-              onCancel={hideModal}
-              footer={null}
-            >
-              <TextArea
-                rows={4}
-                placeholder="Wallet seed/secret"
-                value={seed}
-                onChange={(e) => setSeed(e.target.value)}
-              />
-              <div className={styles.modalButtonContainer}>
-                <Button
-                  loading={accountState.isLoading}
-                  type="primary"
-                  onClick={importWallet}
-                  className={styles.importWalletButton}
-                >
-                  Import Wallet
-                </Button>
-              </div>
-              <Divider plain>or</Divider>
-              <div className={styles.modalButtonContainer}>
-                <Button
-                  loading={accountState.isLoading}
-                  type="primary"
-                  onClick={generateWallet}
-                  className={styles.generateWalletButton}
-                >
-                  Generate New Wallet
-                </Button>
-              </div>
-            </Modal>
+            {!accountState.account && (
+              <Modal
+                title="Generate a new wallet or recover from seed"
+                visible={isModalVisible}
+                onOk={hideModal}
+                onCancel={hideModal}
+                footer={null}
+              >
+                <TextArea
+                  rows={4}
+                  placeholder="Wallet seed/secret"
+                  value={seed}
+                  onChange={(e) => setSeed(e.target.value)}
+                />
+                <div className={styles.modalButtonContainer}>
+                  <Button
+                    loading={accountState.isLoading}
+                    type="primary"
+                    onClick={importWallet}
+                    className={styles.importWalletButton}
+                  >
+                    Import Wallet
+                  </Button>
+                </div>
+                <Divider plain>or</Divider>
+                <div className={styles.modalButtonContainer}>
+                  <Button
+                    loading={accountState.isLoading}
+                    type="primary"
+                    onClick={generateWallet}
+                    className={styles.generateWalletButton}
+                  >
+                    Generate New Wallet
+                  </Button>
+                </div>
+              </Modal>
+            )}
           </>
         }
       />

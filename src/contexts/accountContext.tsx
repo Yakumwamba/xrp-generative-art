@@ -24,10 +24,8 @@ export type Props = {
   children: React.ReactNode
 }
 
-
 //@ts-ignore
 const AccountContext = createContext<AccountContextType>(null)
-
 
 const AccountContextProvider = (props: Props): JSX.Element => {
   const [accountState, accountDispatch] = useReducer(reducer, initialState)
@@ -45,9 +43,8 @@ async function connectWallet(
 ) {
   dispatch({ type: AccountActionTypes.SET_IS_ACCOUNT_LOADING, payload: true })
 
-
-    let client
-    let wallet
+  let client
+  let wallet
   try {
     client = new xrpl.Client("wss://s.altnet.rippletest.net:51233")
     await client.connect((value: any) => {
@@ -63,14 +60,12 @@ async function connectWallet(
         icon: <SmileOutlined style={{ color: "#108ee9" }} />,
       })
     } else {
-      
-     
       wallet = (await client.fundWallet()).wallet
       console.log(wallet)
 
       const btn = (
         <CopyToClipboard
-          text={wallet.secret}
+          text={wallet.seed}
           onCopy={() => {
             message.open({
               type: "info",
@@ -79,7 +74,7 @@ async function connectWallet(
           }}
         >
           <span style={{ color: "#40a9ff", cursor: "pointer" }}>
-            {wallet.secret}
+            {wallet.seed}
           </span>
         </CopyToClipboard>
       )
@@ -95,9 +90,6 @@ async function connectWallet(
     }
 
     const { address, classicAddress, secret } = wallet
-
-   
-
 
     let response
     // eslint-disable-next-line no-constant-condition
@@ -125,7 +117,7 @@ async function connectWallet(
           type: AccountActionTypes.SET_IS_ACCOUNT_LOADING,
           payload: false,
         })
-  
+
         response = await client.request({
           command: "account_nfts",
           account: address,
@@ -134,36 +126,40 @@ async function connectWallet(
         // minting transactions
 
         const mintTransactionBlob = {
-          "TransactionType": "NFTokenMint",
-          "Account": classicAddress,
-          "URI": xrpl.convertStringToHex("https://gateway.pinata.cloud/ipfs/QmbQQDdRATZ12xmTssaQkH7qWNkN8Unfdw818wAXpeRGZX"),
-          "Flags": 8,
-          "TransferFee": 0,
-          "NFTokenTaxon": 0 //Required, but if you have no use for it, set to zero.
+          TransactionType: "NFTokenMint",
+          Account: classicAddress,
+          URI: xrpl.convertStringToHex(
+            "https://gateway.pinata.cloud/ipfs/QmbQQDdRATZ12xmTssaQkH7qWNkN8Unfdw818wAXpeRGZX"
+          ),
+          Flags: 8,
+          TransferFee: 0,
+          NFTokenTaxon: 0, //Required, but if you have no use for it, set to zero.
         }
-       const signedTx = await wallet.sign(mintTransactionBlob)
-       console.log("The transaction was signed " + signedTx + " address => " )
-       const tx = await client.submitAndWait(mintTransactionBlob, { wallet: wallet } )
+        const signedTx = await wallet.sign(mintTransactionBlob)
+        console.log("The transaction was signed " + signedTx + " address => ")
+        const tx = await client.submitAndWait(mintTransactionBlob, {
+          wallet: wallet,
+        })
 
         // response = await client.request({
         //   command: "account_nfts",
         //   account: address,
         //   ledger_index: "validated",
         // })
-        console.table( tx )
-        
+        console.table(tx)
+
         response = await client.request({
           command: "account_nfts",
           account: address,
           ledger_index: "validated",
         })
-        console.log(" NFTs => " , response )
+        console.log(" NFTs => ", response)
         let account_nfts = response.result.account_nfts
-        console.log("Account NFTs => " , account_nfts )
+        console.log("Account NFTs => ", account_nfts)
         dispatch({
           type: AccountActionTypes.SET_ACCOUNT_NFTS,
-          payload: account_nfts
-        });
+          payload: account_nfts,
+        })
 
         break
       } catch (e) {

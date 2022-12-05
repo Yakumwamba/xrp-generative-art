@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Input, Button } from "antd"
+import { Web3Storage } from "web3.storage"
 import styles from "components/GenerateNFT/GenerateNFT.module.scss"
-import { Web3Storage } from 'web3.storage';
 const { TextArea } = Input
 
 type GenerateNFTType = {
@@ -15,14 +15,14 @@ const GenerateNFT: React.FC<GenerateNFTType> = ({ mintNft }) => {
   const [isGenerateLoading, setIsGenerateLoading] = useState<boolean>()
   const [nameInput, setNameInput] = useState<string>()
   const [descriptionInput, setDescriptionInput] = useState<string>()
-  const [imageBlob, setImageBlob] = useState<any>();
-  const [cid, setCid] = useState('');
-  const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVGRDlmRDBkZTI2M2ZBMmY5YTRkMDA5MWNDRUU3YjQ3RTlFMDQwYWQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzAxNzUzOTA3NTgsIm5hbWUiOiJ4cnBfZ2VuZXJhdGl2ZV9haSJ9.yTWTdTEc_OEd6igRJl3JGp0Sd3jueJgxuFd5ieiM3a0');
+  const [imageBlob, setImageBlob] = useState<any>()
+  const [cid, setCid] = useState("")
+  const [token, setToken] = useState(
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVGRDlmRDBkZTI2M2ZBMmY5YTRkMDA5MWNDRUU3YjQ3RTlFMDQwYWQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzAxNzUzOTA3NTgsIm5hbWUiOiJ4cnBfZ2VuZXJhdGl2ZV9haSJ9.yTWTdTEc_OEd6igRJl3JGp0Sd3jueJgxuFd5ieiM3a0"
+  )
   /* const [isMintLoading, setIsMintLoading] = useState<boolean>(); */
 
-  const storage = new Web3Storage({ token });
-
-
+  const storage = new Web3Storage({ token })
 
   const handleGenerate = async (promptText: string) => {
     // Stop the form from submitting and refreshing the page.
@@ -56,8 +56,8 @@ const GenerateNFT: React.FC<GenerateNFTType> = ({ mintNft }) => {
     // If server returns the name submitted, that means the form works.
     const result = await response.json()
     setImageUrl(result.imageURL)
-    // generate blob from image url and setImageBlob 
- 
+    // generate blob from image url and setImageBlob
+
     console.log("Image has been loaded ...waiting for one more step")
     console.log(`Generative Art prompt text: ${result.imageURL}`)
     setIsGenerateLoading(false)
@@ -72,17 +72,16 @@ const GenerateNFT: React.FC<GenerateNFTType> = ({ mintNft }) => {
   }
 
   const handleUpload = async (file: any) => {
-
     const cid = await storage.put([imageBlob])
     // if (!res?.ok) {
     //   throw new Error(`failed to get ${cid}`)
     // }
-  
+
     console.log(cid)
-  };
-  const mintGeneratedImage = async  (generatedImageURL: string) => {
-   // const responseBlob = await fetch(imageUrl)
-    // use fetch to avoid CORS issues with IPFS images 
+  }
+  const mintGeneratedImage = async (generatedImageURL: string) => {
+    // const responseBlob = await fetch(imageUrl)
+    // use fetch to avoid CORS issues with IPFS images
     // no-cors-fetch is not working
     const responseBlob = await fetch("/api/generate_art")
     //const responseBlob = await fetch(imageUrl)
@@ -95,7 +94,6 @@ const GenerateNFT: React.FC<GenerateNFTType> = ({ mintNft }) => {
     // console.log("cid", cid);
     // console.log("MINTING THIS NFT" + generatedImageURL, nameInput, descriptionInput)
   }
-
 
   return (
     <div className={styles.generateCard}>
@@ -117,7 +115,9 @@ const GenerateNFT: React.FC<GenerateNFTType> = ({ mintNft }) => {
       </Button>
 
       <div className={styles.generateDisplayImage}>
-        {generatedImageURL && <img src={generatedImageURL} alt="generateed nft image" />}
+        {generatedImageURL && (
+          <img src={generatedImageURL} alt="generateed nft image" />
+        )}
       </div>
 
       {generatedImageURL && (
@@ -140,10 +140,8 @@ const GenerateNFT: React.FC<GenerateNFTType> = ({ mintNft }) => {
             className={styles.generateMintNftButton}
             onClick={() => {
               mintGeneratedImage(generatedImageURL)
-              console.log("MINTING THIS NFT" + generatedImageURL, );
-            }
-            
-            }
+              console.log("MINTING THIS NFT" + generatedImageURL)
+            }}
           >
             Mint NFT
           </Button>
