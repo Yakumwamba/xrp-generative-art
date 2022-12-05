@@ -4,12 +4,7 @@ import { Web3Storage } from "web3.storage"
 import styles from "components/GenerateNFT/GenerateNFT.module.scss"
 const { TextArea } = Input
 
-type GenerateNFTType = {
-  // eslint-disable-next-line no-unused-vars
-  mintNft: (imageUrl: string, name: string, description: string) => void
-}
-
-const GenerateNFT: React.FC<GenerateNFTType> = ({ mintNft }) => {
+const GenerateNFT: React.FC<GenerateNFTType> = () => {
   const [generatedImageURL, setImageUrl] = useState<string>()
   const [imageInput, setImageInput] = useState<string>()
   const [isGenerateLoading, setIsGenerateLoading] = useState<boolean>()

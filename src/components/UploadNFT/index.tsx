@@ -4,12 +4,7 @@ import { Input } from "antd"
 import { Web3Storage } from "web3.storage"
 import styles from "components/UploadNFT/UploadNFT.module.scss"
 
-type UploadNFTType = {
-  // eslint-disable-next-line no-unused-vars
-  mintNft: (imageUrl: string, name: string, description: string) => void
-}
-
-const UploadNFT: React.FC<UploadNFTType> = ({ mintNft }) => {
+const UploadNFT: React.FC<UploadNFTType> = () => {
   const [imageUrl, setImageUrl] = useState<string>()
   const [nameInput, setNameInput] = useState<string>()
   const [descriptionInput, setDescriptionInput] = useState<string>()
@@ -47,7 +42,7 @@ const UploadNFT: React.FC<UploadNFTType> = ({ mintNft }) => {
     }
   }
 
-  mintNft = async (imageUrl, nameInput, descriptionInput) => {
+  const mintNft = async (imageUrl, nameInput, descriptionInput) => {
     handleUpload(imageBlob)
     console.log("cid", cid)
     console.log("MINTING THIS NFT" + imageUrl, nameInput, descriptionInput)
