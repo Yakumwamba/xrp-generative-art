@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    AI_API_KEY: process.env.AI_API_KEY,
+    AI_API_KEY: "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",
   },
 };
 

@@ -26,9 +26,7 @@ export default async function handler(
         console.log(req.body);
         //const { data, error } = await supabase.storage.createBucket('avatars')
 
-
               const imageResp = await fetch('https://api.openai.com/v1/images/generations', {
-              
                 method: 'POST',
                 body: JSON.stringify({
                     prompt: req.body,
@@ -38,12 +36,8 @@ export default async function handler(
                 headers: {
                     'Content-Type': 'application/json',
                     // use env variable for this
-
                     'Authorization': 'Bearer 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',
                 }
-
-            
-        
         })
 
         const image = await imageResp.json();
@@ -67,8 +61,13 @@ export default async function handler(
 
         //https://lqmvvslhcfindyifblyk.supabase.co/storage/v1/object/public/generative-art/public/y1izesg4z2v6udmpwu4h.png
       } else {
+
+        const responseBlob = await fetch("https://oaidalleapiprodscus.blob.core.windows.net/private/org-MY9L6kQxZ3NhyCkaStj6nZ42/user-8GjBkyE6EkXgFQyBpJgOCoDo/img-OFBU4IRIja4BqzAbeET6EO8b.png?st=2022-12-04T18%3A19%3A03Z&se=2022-12-04T20%3A19%3A03Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2022-12-04T12%3A45%3A50Z&ske=2022-12-05T12%3A45%3A50Z&sks=b&skv=2021-08-06&sig=6g2RwXW7n2MV07IYEwbO4x1xwkaToYH0asNENXXGVw0%3D")
+        const image = await responseBlob.json();
+            console.log(image);
+      
         // Handle any other HTTP method
-        res.status(200).json({ imageURL: "Get request detected" });
+        res.status(200).json({ imageURL: "Get requessdsdtsadasd detected" });
       }
 
 }

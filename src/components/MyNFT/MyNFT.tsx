@@ -1,16 +1,19 @@
 import { Col, Button, Input } from "antd"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 import styles from "./MyNFT.module.scss"
 
 type MyNFTType = {
-  id: number
+  id?: number
 }
 
 // eslint-disable-next-line no-unused-vars
 const MyNFT: React.FC<MyNFTType> = ({ id }) => {
   const [isCreatingOffer, setIsCreatingOffer] = useState(false)
   const [offer, setOffer] = useState("")
+  // get account from context and retrieve account nfts 
+
+  
 
   return (
     <Col span={6}>
@@ -25,6 +28,8 @@ const MyNFT: React.FC<MyNFTType> = ({ id }) => {
           }`}
         >
           <p className={styles.nftsCardTitle}>NFT Name Here</p>
+        
+          <p className={styles.nftsCardTitle}> {id}</p>
           {isCreatingOffer ? (
             <>
               <div className={styles.nftsInputContainer}>

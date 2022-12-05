@@ -14,11 +14,13 @@
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
     "antd": "^4.24.0",
+    "fs": "^0.0.1-security",
     "next": "13.0.4",
     "react": "18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
     "typescript": "4.9.3",
+    "web3.storage": "^4.4.0",
     "xrpl": "^2.6.0"
   },
   "devDependencies": {
